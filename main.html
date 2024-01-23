@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+    {% block content %}
+        {% for entry in entries%}
+            <article class="media content-section">
+                <div class ="media-body">
+                    <div class="article-metadata">
+                        <h2><a class ="mr-2" href="#">{{entry.Title}}</a></h2>
+                        <small class="text-muted">{{entry.Date}}</small>
+
+                    </div>
+                    <p class="article-title">{{entry.Name}}</p>
+                    <p class="article-content">{{entry.Amount}}</p>
+                </div>
+            </article>
+
+
+
+
+
+
+
+            
+        {% endfor %}
+    {% endblock content %}    
