@@ -5,21 +5,13 @@
             <article class="media content-section">
                 <div class ="media-body">
                     <div class="article-metadata">
-                        <h2><a class ="mr-2" href="#">{{entry.Title}}</a></h2>
-                        <small class="text-muted">{{entry.Date}}</small>
+                        <h2>{{entry.category}}</h2>
+                        <small class="text-muted">{{entry.date_added.strftime('%Y-%m-%d')}}</small>
 
                     </div>
-                    <p class="article-title">{{entry.Name}}</p>
-                    <p class="article-content">{{entry.Amount}}</p>
+                    <p class="article-title">{{entry.content}}</p>
+                    <p class="article-content">{{entry.amount}}</p>
                 </div>
             </article>
-
-
-
-
-
-
-
-            
         {% endfor %}
     {% endblock content %}    
