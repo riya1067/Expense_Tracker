@@ -1,17 +1,32 @@
 {% extends "layout.html" %}
 
-    {% block content %}
-        {% for entry in entries%}
-            <article class="media content-section">
-                <div class ="media-body">
-                    <div class="article-metadata">
-                        <h2>{{entry.category}}</h2>
-                        <small class="text-muted">{{entry.date_added.strftime('%Y-%m-%d')}}</small>
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% with messages=get_flashed_messages(with_categories=true) %}
+                <!-- ... (existing code) ... -->
+            {% endwith %}
 
-                    </div>
-                    <p class="article-title">{{entry.content}}</p>
-                    <p class="article-content">{{entry.amount}}</p>
-                </div>
-            </article>
-        {% endfor %}
-    {% endblock content %}    
+            <!-- Search Results -->
+            {% if category_query %}
+                <h3>Search Results for Category: {{ category_query }}</h3>
+            {% endif %}
+            
+            {% for entry in entries %}
+                {% if not category_query or entry.category == category_query %}
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <h2>{{ entry.category }}</h2>
+                                <small class="text-muted">{{ entry.date_added.strftime('%Y-%m-%d') }}</small>
+                            </div>
+                            <p class="article-title">{{ entry.content }}</p>
+                            <p class="article-content">{{ entry.amount }}</p>
+                        </div>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- ... (existing code) ... -->
+    </div>
+{% endblock content %}
