@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 import email_validator
 
@@ -22,6 +22,12 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+
+class EntryForm(FlaskForm):
+    category=StringField('Category',validators=[DataRequired()])
+    content=TextAreaField('Content',validators=[DataRequired()])
+    amount=TextAreaField('Amount',validators=[DataRequired()])
+    submit=SubmitField('Enter')
 
     
 
