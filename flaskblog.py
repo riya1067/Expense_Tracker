@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm, LoginForm, EntryForm
 from flask_sqlalchemy import SQLAlchemy
 
@@ -48,8 +48,14 @@ def about():
 
 
 @app.route("/main")
+
 def mainpage():
     entries=Post.query.all()
+    category_query = request.args.get('category', '')
+
+    
+    if category_query:
+        entries = Post.query.filter_by(category=category_query).all()
     return render_template('main.html',entries=entries)
 
 @app.route("/analysis")
@@ -62,6 +68,12 @@ def register():
     form=RegistrationForm()
     if form.validate_on_submit():
         flash("Account Created!",'success')
+
+
+
+
+
+
         return redirect(url_for('mainpage'))
     
     return render_template('samplesignup.html',form=form)
