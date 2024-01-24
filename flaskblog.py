@@ -1,18 +1,17 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, EntryForm
 from flask_sqlalchemy import SQLAlchemy
+
 from datetime import *
 
 app=Flask(__name__,static_folder='static')
     
-
-
 app.config['SECRET_KEY']='JhRvPw5sL8y2TkQz'
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
 
 
-db=SQLAlchemy()
-db.init_app(app)
+db=SQLAlchemy(app)
+
 
 class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -25,45 +24,13 @@ class User(db.Model):
 
 class Post(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    content=db.Column(db.String(100),nullable=False)
-    date_added=db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
-    amount=db.Column(db.Text,nullable=False)
     category=db.Column(db.String(100),nullable=False)
+    date_added=db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
+    content=db.Column(db.String(100),nullable=False)
+    amount=db.Column(db.String(100),nullable=False)
 
     def __repr__(self):
         return f"Post('{self.title}','{self.date_added},'{self.category}''"
-
-
-
-
-
-
-
-
-
-
-
-
-
-entries=[{"Name":"Pizza","Date":"17/1/24","Amount":500,"Title":"Food"},
-            {"Name":"Donuts","Date":"20/1/24","Amount":200,"Title":"Food"},
-            {"Name":"Mac-Book","Date":"23/1/24","Amount":98000,"Title":"Electronics"}
-            
-
-]
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -73,9 +40,6 @@ def home():
     return render_template('homepage.html')
 
 
-#@app.route("/LoginPage.html")
-#def login():
-    #return render_template('LoginPage.html')
 
 @app.route("/about")
 def about():
@@ -85,7 +49,12 @@ def about():
 
 @app.route("/main")
 def mainpage():
+    entries=Post.query.all()
     return render_template('main.html',entries=entries)
+
+@app.route("/analysis")
+def analysis():
+    return render_template('analysis.html')
 
 
 @app.route("/register", methods=['GET','POST'])
@@ -108,3 +77,16 @@ def login1():
             flash("Incorrect Credentials",'danger')
 
     return render_template('samplelogin.html',form=form)
+
+
+@app.route("/entry/new",methods=['GET','POST'])
+def new_post():
+    form=EntryForm()
+    if form.validate_on_submit():
+        entry=Post(category=form.category.data,content=form.content.data,amount=form.amount.data)
+        db.session.add(entry)
+        db.session.commit()
+        flash('Entry successful!','success')
+        return redirect(url_for('mainpage')) 
+    return render_template('entry.html',title="new entry",form=form)
+
