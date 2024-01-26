@@ -1,0 +1,131 @@
+{% extends "loginlayout.html" %}
+
+{% block content %}
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(24, 25, 27);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #eee;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .login-container h2 {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #888;
+            border-radius: 8px; 
+        }
+
+        .form-group button.roundbutton {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    }
+
+    .form-group button.roundbutton:hover {
+        background-color: #555;
+    }
+
+        .form-group .invalid-feedback {
+            color: red;
+            display: block;
+            width: 100%;
+            margin-top: .25rem;
+            font-size: 80%;
+        }
+
+        .register-now-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .register-now-link a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .register-now-link a:hover {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form method="POST" action="">
+            {{form.hidden_tag()}}
+            <h2>Login</h2>
+            
+            <div class="form-group">
+                {{form.email.label(class="form-control-label")}}
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{form.email(class="form-control form-control-lg")}}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{form.password.label(class="form-control-label")}}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{form.password(class="form-control form-control-lg")}}
+                {% endif %}
+            </div>
+        
+            <div class="form-group">
+                <button type="submit" class="roundbutton" name="submit">Login</button>
+            </div>
+       
+{% endblock %}
