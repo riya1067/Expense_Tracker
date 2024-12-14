@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="/">Home</a>
+            <a href="/analyze">Analysis</a>
+            <a class="add-new"href="/add_new">Add New</a>
+            <a href="#"id="editButton"class="nav-link">Edit</a>
+        </div>
+        <div class="search-container">
+            <form action="/search"method="GET">
+                <input type="text" name="query" placeholder="Search for an entry" value="{{request.args.get('query') or ""}}">
+            </form>
+        </div>
+    </nav>
+    <div class="container">
+        {%for post in posts%}
+        <div class="card" data-id="{{post.id}}">
+            <h2>{{post.category}}</h2>
+            <p class="date">{{post.date_added.strftime('%B %d %Y')}}</p> 
+            <p>{{post.content}}</p>
+            <p>{{post.amount}}</p>
+            <button class="delete-btn" onclick="deletePost({{post.id}})">Delete</button>
+            <button class="update-btn" onclick="location.href='/update/{{post.id}}'">Update</button>
+        </div>
+        {%endfor%}
+    </div>
+    <script>
+        const editButton=document.getElementById('editButton');
+        const deleteButtons=document.querySelectorAll('.delete-btn');
+        const updateButtons=document.querySelectorAll('.update-btn');
+        editButton.addEventListener('click', function() {
+            deleteButtons.forEach(button=>button.style.display=button.style.display==='none'?'inline-block':'none');
+            updateButtons.forEach(button=>button.style.display=button.style.display==='none'?'inline-block':'none');
+        });
+        function deletePost(postId) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                fetch(`/delete/${postId}`, {
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response=>{
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                })
+                .catch(error=>console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>

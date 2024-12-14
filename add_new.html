@@ -1,0 +1,94 @@
+<html>
+<head>
+    <title>Add New Expense</title>
+    <style>
+        body {
+            background-color:#f7f7f7;
+            color:#000000;
+            font-family:Arial,sans-serif;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+        }
+        h1 {
+            text-align:center;
+            font-size:2em;
+            color:#000000;
+        }
+        form {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            max-width:400px;
+            width:100%;
+            padding:30px;
+            border-radius:15px;
+            background-color:#fafafa;
+            box-shadow:0 4px 20px rgba(0,0,0,0.3);
+        }
+        label {
+            align-self:flex-start;
+            font-size:0.9em;
+            color:#000000;
+            margin-bottom:5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width:100%;
+            padding:12px;
+            margin-bottom:20px;
+            border:1px;
+            border-radius:15px;
+            background-color:#eaeaea;
+            font-size:1em;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            outline: none;
+        }
+        button {
+            padding:12px 25px;
+            border:2px solid #000000;
+            border-radius:25px;
+            background-color:transparent;
+            color:#000000;
+            font-size:1em;
+            cursor:pointer;
+        }
+        .error-messages {
+            color:#ff4d4d;
+            font-size:0.85em;
+            list-style-type:none;
+            padding:0;
+            margin-bottom:15px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a New Expense</h1>
+    {%with messages=get_flashed_messages()%}
+      {%if messages%}
+        <ul class="error-messages">
+          {%for message in messages%}
+            <li>{{message}}</li>
+          {%endfor%}
+        </ul>
+      {%endif%}
+    {%endwith%}
+    <form action="/add_new" method="POST">
+        <label for="category">Category:</label>
+        <input type="text" name="category" value="{{request.form.get('category','')}}"required>
+        <label for="content">Note:</label>
+        <input type="text" name="content" value="{{request.form.get('content','')}}" required>
+        <label for="amount">Amount:</label>
+        <input type="number" name="amount" value="{{request.form.get('amount','')}}" required>
+        <label for="date">Date:</label>
+        <input type="date" name="date_added" value="{{request.form.get('date_added','')}}"required>
+        <button type="submit">Add Expense</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <style>
+        body{
+            font-family:'Gill Sans'; 
+        }
+        .buttoncontainer{
+            position:fixed;
+            top:20px;
+            right:20px;
+        }
+        .roundbutton{
+            padding:10px 20px;
+            background-color:rgb(0,0,0);
+            border:2px solid rgb(255,255,255);
+            border-radius:20px;
+            font-size:16px;
+            color:rgb(255,255,255);
+            text-align:center;
+            text-decoration:none;
+            margin-right:10px; 
+        }
+        #bgimage{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            z-index:-1;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttoncontainer">
+        <a href="/main" class="roundbutton">Main Page</a> 
+    </div>
+    <img id="bgimage" src="/static/bgimage.jpg">
+</body>
+</html>

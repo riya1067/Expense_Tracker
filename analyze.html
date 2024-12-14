@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Expenses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #eaeaea; /* Light grey background */
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            background: white;
+            padding: 20px;
+            border-radius: 10px; /* Rounded edges */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+        }
+        h1, h2 {
+            color: black; /* Black text */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="date"], button {
+            padding: 10px;
+            border-radius: 8px; /* Rounded input edges */
+            border: 1px solid #ccc; /* Light border for inputs */
+            outline: none; /* Remove default outline */
+        }
+        input[type="date"]:focus {
+            border-color: #888; /* Highlighted border color on focus */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Focus glow */
+        }
+        button {
+            background-color: black; /* Black button */
+            color: white; /* White text */
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px; /* Pill shape */
+            font-weight: bold; /* Bold text for emphasis */
+            text-transform: uppercase; /* Capitalize button text */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+        button:hover {
+            background-color: #444; /* Darker black on hover */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .return-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: black; /* Black button */
+            color: white; /* White text */
+            text-decoration: none;
+            border-radius: 25px; /* Pill shape */
+            font-weight: bold;
+            text-transform: uppercase; /* Capitalize button text */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            margin-top: 20px;
+        }
+        .return-btn:hover {
+            background-color: #444; /* Darker black on hover */
+        }
+        .total-row {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analyze Expenses</h1>
+
+        <form method="POST">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            <button type="submit">Analyze</button>
+        </form>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+        {% if pie_chart_data %}
+        <h2>Expense Breakdown</h2>
+        <img src="data:image/png;base64,{{ pie_chart_data }}" alt="Pie Chart">
+        <h2>Expense Details</h2>
+        {{ table_html|safe }}
+        {% endif %}
+        <a href="{{ url_for('mainpage') }}" class="return-btn">Return to Main Page</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var table = document.querySelector('table');
+            if (table) {
+                var rows = table.getElementsByTagName('tr');
+                var lastRow = rows[rows.length - 1];
+                lastRow.classList.add('total-row');
+            }
+        });
+    </script>
+</body>
+</html>
