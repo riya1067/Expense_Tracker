@@ -10,6 +10,7 @@
             <a href="/analyze">Analysis</a>
             <a class="add-new"href="/add_new">Add New</a>
             <a href="#"id="editButton"class="nav-link">Edit</a>
+            <a href="{{ url_for('signout') }}" class="btn btn-danger">Log Out</a>
         </div>
         <div class="search-container">
             <form action="/search"method="GET">
