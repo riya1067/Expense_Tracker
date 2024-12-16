@@ -43,7 +43,7 @@ def register():
         hashed_password = generate_password_hash(password)
         cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
         db.commit()
-        flash('Registration successful. Please log in.')
+        flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
 @app.route("/login", methods=['GET', 'POST'])
@@ -176,6 +176,14 @@ def update_post(id):
         db.commit()
         return redirect(url_for('mainpage'))
     return render_template('update.html', post=post)
+@app.route("/signout")
+def signout():
+    session.pop('user_id', None)  
+    session.pop('username', None)
+    flash('You have been logged out.', 'success')  
+    return redirect(url_for('login'))  
+
+
 @app.route('/analyze', methods=['GET', 'POST'])
 @login_required
 def analyze():
@@ -202,7 +210,7 @@ def analyze():
             detailed_expense_list.append({
                 'date': expense['date_added'].strftime('%Y-%m-%d'),
                 'category': expense['category'],
-                'name': expense['content'],
+                'note': expense['content'],
                 'amount': float(expense['amount'])
             })
         labels = list(category_summary.keys())
